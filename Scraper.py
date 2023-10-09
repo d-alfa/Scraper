@@ -5,6 +5,8 @@ from bs4 import BeautifulSoup
 from time import sleep
 from random import randint
 
+url = "https://www.skonis-kvapas.lt/arbata/juodoji-arbata"
+
 # Request URl
 def scrape_items(url):
 	response = requests.get(url)
@@ -27,9 +29,12 @@ def save_items(all_items):
         database="arbatos"
     )
 	c = connection.cursor()
+
 	# Sukuria table "Arbatos" tarp nurodytos duomenų bazės
-	c.execute('''CREATE TABLE Arbatos 
-		(Pavadinimas VARCHAR(255),Kaina FLOAT(4,2) NOT NULL,Tipas VARCHAR(255))''')
+	# c.execute('''CREATE TABLE Arbatos 
+	# 	(Pavadinimas VARCHAR(255),Kaina FLOAT(4,2) NOT NULL,Tipas VARCHAR(255))''')
+
+	# Perkelia duomenis į duomenų baze
 	c.executemany("INSERT INTO Arbatos VALUES (%s,%s,%s)", all_items)
 	connection.commit()
 	connection.close()
@@ -57,4 +62,24 @@ def tipo_gavimas(item):
 			return "Juodoji Arbata"
 	return None
 
-scrape_items("https://www.skonis-kvapas.lt/arbata/juodoji-arbata")
+def duomenų_gavimas(url):
+	response = requests.get(url)
+	soup = BeautifulSoup(response.text, "html.parser")
+	return soup
+
+# kitas puslapis
+def kitas_puslapis(soup):
+	puslapis = soup.find("li", class_="js-search-link")
+	if not puslapis.find("li", class_="disabled js-search-link"):
+		url = "http://www.skonis-kvapas.lt" + str(puslapis.find("a",class_="js-search-link").find("a")["href"])
+		return url
+	else:
+		return
+
+# Kito puslapio ieškojimas
+while True:
+	soup = duomenų_gavimas(url)
+	url = kitas_puslapis(soup)
+	if not url:
+		break
+	print(url)
