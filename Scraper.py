@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from time import sleep
 from random import randint
 
-url = "https://www.skonis-kvapas.lt/arbata/juodoji-arbata"
+# url = "https://www.skonis-kvapas.lt/arbata/juodoji-arbata"
 
 # Request URl
 def scrape_items(url):
@@ -60,26 +60,6 @@ def tipo_gavimas(item):
 	for p in pavadinimai:
 		if "Juodoji" in p or "juodoji" in p:
 			return "Juodoji Arbata"
-	return None
-
-def duomenų_gavimas(url):
-	response = requests.get(url)
-	soup = BeautifulSoup(response.text, "html.parser")
-	return soup
-
-# kitas puslapis
-def kitas_puslapis(soup):
-	puslapis = soup.find("li", class_="js-search-link")
-	if not puslapis.find("li", class_="disabled js-search-link"):
-		url = "http://www.skonis-kvapas.lt" + str(puslapis.find("a",class_="js-search-link").find("a")["href"])
-		return url
-	else:
-		return
-
-# Kito puslapio ieškojimas
-while True:
-	soup = duomenų_gavimas(url)
-	url = kitas_puslapis(soup)
-	if not url:
-		break
-	print(url)
+		return None
+	
+scrape_items("https://www.skonis-kvapas.lt/arbata/juodoji-arbata")
