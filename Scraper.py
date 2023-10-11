@@ -67,3 +67,4 @@ for p in j_a_puslapiai:
 	print(f"Scraping Puslapis: {p}")
 	print()
 	duomenu_rinkimas(p)
+	print()
