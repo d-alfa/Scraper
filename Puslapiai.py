@@ -7,3 +7,4 @@ def juodoji_arbata_puslapiai():
         url = f"https://www.skonis-kvapas.lt/arbata/juodoji-arbata?page={puslapiu_sk}"
         puslapiu_sk = puslapiu_sk + 1
         j_a_puslapiai.append(url)
+    return j_a_puslapiai
