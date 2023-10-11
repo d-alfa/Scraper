@@ -4,11 +4,10 @@ import mysql.connector
 from bs4 import BeautifulSoup
 from time import sleep
 from random import randint
+from Puslapiai import juodoji_arbata_puslapiai,j_a_puslapiai
 
-# url = "https://www.skonis-kvapas.lt/arbata/juodoji-arbata"
-
-# Request URl
-def scrape_items(url):
+# Informacijos rinkimas pagal Url
+def duomenu_rinkimas(url):
 	response = requests.get(url)
 	soup = BeautifulSoup(response.text, "html.parser")
 	items = soup.find_all(class_="products__item-link")
@@ -17,11 +16,11 @@ def scrape_items(url):
 		item_data = (pavadinimo_gavimas(item),kainos_gavimas(item),tipo_gavimas(item))
 		all_items.append(item_data)
 		# sleep(randint(7,67))
-	save_items(all_items)
+	duomenu_išsaugojimas(all_items)
 	print(all_items)
 
 # Duomenų išsaugojimas
-def save_items(all_items):
+def duomenu_išsaugojimas(all_items):
 	connection = mysql.connector.connect(
         host="localhost",
         user="root",
@@ -39,19 +38,19 @@ def save_items(all_items):
 	connection.commit()
 	connection.close()
 
-# pavadinimas
+# Pavadinimas
 def pavadinimo_gavimas(item):
 	pavadinimas = item.find("h2")
 	return pavadinimas.string.strip()
 
-# kaina
+# Kaina
 def kainos_gavimas(item):
 	kaina = item.find("ins")
 	kaina2 = kaina.string.replace("\xa0€","").replace(",",".")
 	kaina_float = float(kaina2)
 	return kaina_float
 
-# tipas
+# Tipas
 def tipo_gavimas(item):
 	pavadinimai = []
 	tipas = item.find("h2")
@@ -62,4 +61,9 @@ def tipo_gavimas(item):
 			return "Juodoji Arbata"
 		return None
 	
-scrape_items("https://www.skonis-kvapas.lt/arbata/juodoji-arbata")
+# Paima kiekviena elementa atskirai, ir panaudoja jį tarp funckijos "duomenu_rinkimas"
+juodoji_arbata_puslapiai()
+for p in j_a_puslapiai:
+	print(f"Scraping Puslapis: {p}")
+	print()
+	duomenu_rinkimas(p)
