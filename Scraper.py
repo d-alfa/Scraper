@@ -4,23 +4,24 @@ import mysql.connector
 from bs4 import BeautifulSoup
 from time import sleep
 from random import randint
-from Puslapiai import juodoji_arbata_puslapiai,j_a_puslapiai
+from Pages import juodoji_arbata_pages
 
-# Informacijos rinkimas pagal Url
-def duomenu_rinkimas(url):
+# Collecting data from provided Url
+def collecting_data(url):
 	response = requests.get(url)
 	soup = BeautifulSoup(response.text, "html.parser")
 	items = soup.find_all(class_="products__item-link")
 	all_items = []
 	for item in items:
-		item_data = (pavadinimo_gavimas(item),kainos_gavimas(item),tipo_gavimas(item))
+		item_data = (collecting_title(item),collecting_price(item),collecting_type(item))
 		all_items.append(item_data)
 		# sleep(randint(7,67))
-	duomenu_išsaugojimas(all_items)
-	print(all_items)
+	saving_data(all_items)
+	for a in all_items:
+		print(a)
 
-# Duomenų išsaugojimas
-def duomenu_išsaugojimas(all_items):
+# Saving data to SQL database
+def saving_data(all_items):
 	connection = mysql.connector.connect(
         host="localhost",
         user="root",
@@ -28,43 +29,45 @@ def duomenu_išsaugojimas(all_items):
         database="arbatos"
     )
 	c = connection.cursor()
-
-	# Sukuria table "Arbatos" tarp nurodytos duomenų bazės
+	# Creates table "Arbatos" inside SQL database
 	# c.execute('''CREATE TABLE Arbatos 
-	# 	(Pavadinimas VARCHAR(255),Kaina FLOAT(4,2) NOT NULL,Tipas VARCHAR(255))''')
+	# 	(Title VARCHAR(255),Price FLOAT(4,2) NOT NULL,Type VARCHAR(255))''')
 
-	# Perkelia duomenis į duomenų baze
+	# Inserts data to database
 	c.executemany("INSERT INTO Arbatos VALUES (%s,%s,%s)", all_items)
 	connection.commit()
 	connection.close()
 
-# Pavadinimas
-def pavadinimo_gavimas(item):
-	pavadinimas = item.find("h2")
-	return pavadinimas.string.strip()
+# Title
+def collecting_title(item):
+	title = item.find("h2")
+	return title.string.strip()
 
-# Kaina
-def kainos_gavimas(item):
-	kaina = item.find("ins")
-	kaina2 = kaina.string.replace("\xa0€","").replace(",",".")
-	kaina_float = float(kaina2)
-	return kaina_float
+# Price
+def collecting_price(item):
+	price = item.find("ins")
+	price2 = price.string.replace("\xa0€","").replace(",",".")
+	price_float = float(price2)
+	return price_float
 
-# Tipas
-def tipo_gavimas(item):
-	pavadinimai = []
-	tipas = item.find("h2")
-	tipas2 = tipas.string.strip()
-	pavadinimai.append(tipas2)
-	for p in pavadinimai:
+# Type
+def collecting_type(item):
+	types = []
+	type = item.find("h2")
+	type2 = type.string.strip()
+	types.append(type2)
+	for p in types:
 		if "Juodoji" in p or "juodoji" in p:
 			return "Juodoji Arbata"
 		return None
 	
-# Paima kiekviena elementa atskirai, ir panaudoja jį tarp funckijos "duomenu_rinkimas"
-juodoji_arbata_puslapiai()
-for p in j_a_puslapiai:
-	print(f"Scraping Puslapis: {p}")
-	print()
-	duomenu_rinkimas(p)
-	print()
+# Takes pages from "Pages.py" prints them one by one and inserts them into function "collecting_data"
+def pages_usage():
+	j_a_pages = juodoji_arbata_pages()
+	for p in j_a_pages:
+		print(f"Scraping Page: {p}")
+		print()
+		collecting_data(p)
+		print()
+
+pages_usage()
