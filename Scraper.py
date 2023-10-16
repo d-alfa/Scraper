@@ -17,10 +17,10 @@ def collecting_data(url):
 		item_data = (collecting_title(data),collecting_price(data),collecting_type(data))
 		all_data.append(item_data)
 		# sleep(randint(7,67))
-
-	saving_data(all_data)
-	for a in all_data:
-		print(a)
+	return print(all_data)
+	# saving_data(all_data)
+	# for a in all_data:
+	# 	print(a)
 
 # Title
 def collecting_title(data):
@@ -30,9 +30,8 @@ def collecting_title(data):
 # Price
 def collecting_price(data):
 	price = data.find("ins")
-	price2 = price.string.replace("\xa0€","").replace(",",".")
-	price_float = float(price2)
-	return price_float
+	price2 = price.string.replace("\xa0€","").replace(",",".").replace("€","")
+	return float(price2)
 
 # Type
 def collecting_type(data):
@@ -40,20 +39,20 @@ def collecting_type(data):
 	type = data.find("h2")
 	type2 = type.string.strip()
 	types.append(type2)
-	for p in types:
-		if "Juodoji" in p or "juodoji" in p:
+	for t in types:
+		if "Juodoji" in t or "juodoji" in t:
 			return "Juodoji Arbata"
 		return None
 
 # Takes pages from "Pages.py" prints them one by one and inserts them into function "collecting_data"
 def page_usage():
 	j_a_pages = juodoji_arbata_pages()
-	for p in j_a_pages:
+	for url in j_a_pages:
 		print()
-		print(f"Scraping Page: {p}")
+		print(f"Scraping Page: {url}")
 		print()
-		collecting_data(p)
-		print()
+		collecting_data(url)
+	return url
 
 # Saving data to SQL database
 def saving_data(all_data):
@@ -73,4 +72,4 @@ def saving_data(all_data):
 	connection.commit()
 	connection.close()
 
-page_usage()
+# page_usage()
