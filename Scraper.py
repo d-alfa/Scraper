@@ -17,7 +17,7 @@ def collecting_data(url):
 		item_data = (collecting_title(data),collecting_price(data),collecting_type(data))
 		all_data.append(item_data)
 		# sleep(randint(7,67))
-	return print(all_data)
+	return all_data
 	# saving_data(all_data)
 	# for a in all_data:
 	# 	print(a)
