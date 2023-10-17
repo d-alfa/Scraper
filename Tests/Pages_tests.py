@@ -4,7 +4,7 @@ import sys
 sys.path.insert(1, "C:/Users/Alfonsas/OneDrive/Desktop/Python/Projektai/Scraper")
 from Pages import juodoji_arbata_pages
 
-class juodoji_arbata_pages_Tests(unittest.TestCase):
+class Tests_juodoji_arbata_pages(unittest.TestCase):
     ''' Must be total 3 pages total '''
     def test_pages_count(self):
         self.assertEqual(len(juodoji_arbata_pages()), 3)
