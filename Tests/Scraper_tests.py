@@ -28,12 +28,12 @@ class Test_Collecting_Data(unittest.TestCase):
 
 class Test_Collecting_Title(unittest.TestCase):
 
-    # "Ensure that html_data is not None"
-    def test_colecting_title_is_not_none(self):
-        html_data ='<div class="products__item-link"><h2>Title</h2></div>'
+    # "Returns ValueError if there is no data inside <h2></h2>"
+    def test_collecting_title_no_data(self):
+        html_data ='<div class="products__item-link"><h2></h2></div>'
         soup = BeautifulSoup(html_data, "html.parser")
-        title = collecting_title(soup)
-        self.assertIsNotNone(title)
+        with self.assertRaises(ValueError):
+            collecting_title(soup)
 
     # "Returned data must be str"
     def test_collecting_title_str(self):
