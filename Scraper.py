@@ -45,14 +45,14 @@ def collecting_price(data):
 
 # Type
 def collecting_type(data):
-	types = []
-	type = data.find("h2")
-	type2 = type.string.strip()
-	types.append(type2)
-	for t in types:
-		if "Juodoji" in t or "juodoji" in t:
-			return "Juodoji Arbata"
-		return None
+	p_type = data.find("h2")
+	if p_type == None:
+		raise ValueError("There is no <h2></h2> brackets")
+	h2 = p_type.string
+	if h2 == None:
+		raise ValueError("No Data inside <h2></h2>")
+	if "juodoji" in h2.strip().lower():
+		return "Juodoji Arbata"
 
 # Takes pages from "Pages.py" prints them one by one and inserts them into function "collecting_data"
 def page_usage():
