@@ -43,19 +43,21 @@ class Test_Collecting_Title(unittest.TestCase):
         self.assertIsInstance(title,str)
 
 class Test_Collecting_Price(unittest.TestCase):
+
     # Returns ValueError if there is no <ins></ins> brackets
     def test_collecting_price_no_ins(self):
         html_data = '<div class="products__item-link"></div>'
         soup = BeautifulSoup(html_data, "html.parser")
-        price = collecting_price(soup)
-        self.assertEqual(price,None)
+        with self.assertRaises(ValueError):
+            collecting_price(soup)
 
     # Returns ValueError if there is no data inside <ins></ins>
     def test_collecting_price_no_data(self):
         html_data = '<div class="products__item-link"><ins></ins></div>'
         soup = BeautifulSoup(html_data, "html.parser")
-        price = collecting_price(soup)
-        self.assertEqual(price,"No Data inside <ins></ins>")
+        with self.assertRaises(ValueError) as error:
+            collecting_price(soup)
+        self.assertEqual(str(error.exception), "No Data inside <ins></ins>")
 
     # Function must return "float"
     def test_collecting_price_float(self):
