@@ -25,7 +25,11 @@ def collecting_data(url):
 # Title
 def collecting_title(data):
 	title = data.find("h2")
-	return title.string.strip()
+	h2 = title.string
+	if h2 == None:
+		raise ValueError("No Data inside <h2></h2>")
+	else:
+		return h2.strip()
 
 # Price
 def collecting_price(data):
