@@ -30,8 +30,14 @@ def collecting_title(data):
 # Price
 def collecting_price(data):
 	price = data.find("ins")
-	price2 = price.string.replace("\xa0€","").replace(",",".").replace("€","")
-	return float(price2)
+	if price == None:
+		raise ValueError("There is no <ins></ins> brackets")
+	ins = price.string
+	if ins == None:
+		raise ValueError("No Data inside <ins></ins>")
+	else:
+		final_price = ins.replace("\xa0€","").replace(",",".").replace("€","")
+		return float(final_price)
 
 # Type
 def collecting_type(data):
@@ -73,3 +79,5 @@ def saving_data(all_data):
 	connection.close()
 
 # page_usage()
+
+# collecting_data("https://www.skonis-kvapas.lt/arbata/juodoji-arbata")
