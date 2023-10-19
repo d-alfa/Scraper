@@ -3,7 +3,7 @@ import unittest
 from bs4 import BeautifulSoup
 import sys
 sys.path.insert(1, "C:/Users/Alfonsas/OneDrive/Desktop/Python/Projektai/Scraper")
-from Scraper import collecting_data, collecting_title#, collecting_price, collecting_type, page_usage
+from Scraper import collecting_data, collecting_title, collecting_price#, collecting_type, page_usage
 
 class Test_Collecting_Data(unittest.TestCase):
 
@@ -41,6 +41,28 @@ class Test_Collecting_Title(unittest.TestCase):
         soup = BeautifulSoup(html_data, "html.parser")
         title = collecting_title(soup)
         self.assertIsInstance(title,str)
+
+class Test_Collecting_Price(unittest.TestCase):
+    # Returns ValueError if there is no <ins></ins> brackets
+    def test_collecting_price_no_ins(self):
+        html_data = '<div class="products__item-link"></div>'
+        soup = BeautifulSoup(html_data, "html.parser")
+        price = collecting_price(soup)
+        self.assertEqual(price,None)
+
+    # Function must return "No Data" if there is no data inside <ins></ins>
+    def test_collecting_price_no_data(self):
+        html_data = '<div class="products__item-link"><ins></ins></div>'
+        soup = BeautifulSoup(html_data, "html.parser")
+        price = collecting_price(soup)
+        self.assertEqual(price,"No Data")
+
+    # Function must return "float"
+    def test_collecting_price_float(self):
+        html_data = '<div class="products__item-link"><ins>3.99</ins></div>'
+        soup = BeautifulSoup(html_data, "html.parser")
+        price = collecting_price(soup)
+        self.assertIsInstance(price,float)
 
 if __name__== '__main__':
     unittest.main()
