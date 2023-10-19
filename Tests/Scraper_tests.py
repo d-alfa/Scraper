@@ -3,7 +3,7 @@ import unittest
 from bs4 import BeautifulSoup
 import sys
 sys.path.insert(1, "C:/Users/Alfonsas/OneDrive/Desktop/Python/Projektai/Scraper")
-from Scraper import collecting_data, collecting_title, collecting_price#, collecting_type, page_usage
+from Scraper import collecting_data, collecting_title, collecting_price, collecting_type#, page_usage
 
 class Test_Collecting_Data(unittest.TestCase):
 
@@ -65,6 +65,30 @@ class Test_Collecting_Price(unittest.TestCase):
         soup = BeautifulSoup(html_data, "html.parser")
         price = collecting_price(soup)
         self.assertIsInstance(price,float)
+
+class Test_Collecting_Type(unittest.TestCase):
+
+    # Returns ValueError if there is no <h2></h2> brackets
+    def test_collecting_type_no_h2(self):
+        html_data = '<div class="products__item-link"></div>'
+        soup = BeautifulSoup(html_data, "html.parser")
+        with self.assertRaises(ValueError):
+            collecting_type(soup)
+
+    # Returns ValueError if there is no data inside <h2></h2>
+    def test_collecting_type_no_data(self):
+        html_data = '<div class="products__item-link"><h2></h2></div>'
+        soup = BeautifulSoup(html_data, "html.parser")
+        with self.assertRaises(ValueError) as error:
+            collecting_type(soup)
+        self.assertEqual(str(error.exception), "No Data inside <h2></h2>")
+
+    # Function must return "str"
+    def test_collecting_type_str(self):
+        html_data = '<div class="products__item-link"><h2>juodoji</h2></div>'
+        soup = BeautifulSoup(html_data, "html.parser")
+        p_type = collecting_type(soup)
+        self.assertIsInstance(p_type,str)
 
 if __name__== '__main__':
     unittest.main()
