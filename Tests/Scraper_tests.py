@@ -50,12 +50,12 @@ class Test_Collecting_Price(unittest.TestCase):
         price = collecting_price(soup)
         self.assertEqual(price,None)
 
-    # Function must return "No Data" if there is no data inside <ins></ins>
+    # Returns ValueError "No Data" if there is no data inside <ins></ins>
     def test_collecting_price_no_data(self):
         html_data = '<div class="products__item-link"><ins></ins></div>'
         soup = BeautifulSoup(html_data, "html.parser")
         price = collecting_price(soup)
-        self.assertEqual(price,"No Data")
+        self.assertEqual(price,"No Data inside <ins></ins>")
 
     # Function must return "float"
     def test_collecting_price_float(self):
