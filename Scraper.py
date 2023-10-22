@@ -6,6 +6,15 @@ from time import sleep
 from random import randint
 from Pages import juodoji_arbata_pages
 
+# Collecting pages from Pages.py and passing them through collecting_data(url) function
+def collecting_pages():
+	j_a_pages = juodoji_arbata_pages()
+	for url in j_a_pages:
+		print(url)
+		print()
+		collecting_data(url)
+		print()
+
 # Collecting data from provided Url
 def collecting_data(url):
 	response = requests.get(url)
@@ -17,10 +26,10 @@ def collecting_data(url):
 		item_data = (collecting_title(data),collecting_price(data),collecting_type(data))
 		all_data.append(item_data)
 		# sleep(randint(7,67))
-	return all_data
+	# return all_data
 	# saving_data(all_data)
-	# for a in all_data:
-	# 	print(a)
+	for a in all_data:
+		print(a)
 
 # Title
 def collecting_title(data):
@@ -54,16 +63,6 @@ def collecting_type(data):
 	if "juodoji" in h2.strip().lower():
 		return "Juodoji Arbata"
 
-# Takes pages from "Pages.py" prints them one by one and inserts them into function "collecting_data"
-def page_usage():
-	j_a_pages = juodoji_arbata_pages()
-	for url in j_a_pages:
-		print()
-		print(f"Scraping Page: {url}")
-		print()
-		collecting_data(url)
-	return url
-
 # Saving data to SQL database
 def saving_data(all_data):
 	connection = mysql.connector.connect(
@@ -82,6 +81,6 @@ def saving_data(all_data):
 	connection.commit()
 	connection.close()
 
-# page_usage()
-
 # collecting_data("https://www.skonis-kvapas.lt/arbata/juodoji-arbata")
+
+collecting_pages()
