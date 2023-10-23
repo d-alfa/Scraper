@@ -14,6 +14,14 @@ def collecting_pages():
 		collected_url.append(url)
 	return collected_url
 
+# Uses pages from "collecting_pages" function 
+# 	and passes them to "collecting_data" function
+def using_pages():
+	collected_url = collecting_pages()
+	for url in collected_url:
+		collecting_data(url)
+	return collected_url
+
 # Collecting data from provided Url
 def collecting_data(url):
 	response = requests.get(url)
@@ -25,10 +33,10 @@ def collecting_data(url):
 		item_data = (collecting_title(data),collecting_price(data),collecting_type(data))
 		all_data.append(item_data)
 		# sleep(randint(7,67))
-	# return all_data
+	return all_data
 	# saving_data(all_data)
-	for a in all_data:
-		print(a)
+	# for a in all_data:
+	# 	print(a)
 
 # Title
 def collecting_title(data):
@@ -82,4 +90,4 @@ def saving_data(all_data):
 
 # collecting_data("https://www.skonis-kvapas.lt/arbata/juodoji-arbata")
 
-# collecting_pages()
+using_pages()
