@@ -17,10 +17,11 @@ def collecting_pages():
 # Uses pages from "collecting_pages" function 
 # 	and passes them to "collecting_data" function
 def using_pages():
+	collected_data = []
 	collected_url = collecting_pages()
 	for url in collected_url:
-		collecting_data(url)
-	return collected_url
+		collected_data.append(collecting_data(url))
+	return collected_data
 
 # Collecting data from provided Url
 def collecting_data(url):
