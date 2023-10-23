@@ -3,7 +3,24 @@ import unittest
 from bs4 import BeautifulSoup
 import sys
 sys.path.insert(1, "C:/Users/Alfonsas/OneDrive/Desktop/Python/Projektai/Scraper")
-from Scraper import collecting_data, collecting_title, collecting_price, collecting_type#, page_usage
+from Scraper import collecting_data, collecting_title, collecting_price, collecting_type, collecting_pages
+
+class Test_Collecting_Pages(unittest.TestCase):
+
+    # Function must return certain url's
+    def test_collecting_pages_j_a_pages(self):
+        current_pages = collecting_pages()
+        expected_pages = [
+            "https://www.skonis-kvapas.lt/arbata/juodoji-arbata?page=1",
+            "https://www.skonis-kvapas.lt/arbata/juodoji-arbata?page=2",
+            "https://www.skonis-kvapas.lt/arbata/juodoji-arbata?page=3",
+        ]
+        self.assertEqual(current_pages,expected_pages)
+
+    # Function must return 3 different url
+    def test_collecting_pages_j_a_pages_len(self):
+        current_pages = collecting_pages()
+        self.assertEqual(len(current_pages),3)
 
 class Test_Collecting_Data(unittest.TestCase):
 
