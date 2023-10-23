@@ -6,14 +6,13 @@ from time import sleep
 from random import randint
 from Pages import juodoji_arbata_pages
 
-# Collecting pages from Pages.py and passing them through collecting_data(url) function
+# Collecting pages from Pages.py
 def collecting_pages():
+	collected_url = []
 	j_a_pages = juodoji_arbata_pages()
 	for url in j_a_pages:
-		print(url)
-		print()
-		collecting_data(url)
-		print()
+		collected_url.append(url)
+	return collected_url
 
 # Collecting data from provided Url
 def collecting_data(url):
@@ -83,4 +82,4 @@ def saving_data(all_data):
 
 # collecting_data("https://www.skonis-kvapas.lt/arbata/juodoji-arbata")
 
-collecting_pages()
+# collecting_pages()
