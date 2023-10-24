@@ -97,6 +97,6 @@ def printing_data():
 		print()
 		for item in d:
 			print(item)
-	return print(f"Printing finished")
+	return zip(pages,data)
 
 printing_data()
