@@ -3,7 +3,7 @@ import unittest
 from bs4 import BeautifulSoup
 import sys
 sys.path.insert(1, "C:/Users/Alfonsas/OneDrive/Desktop/Python/Projektai/Scraper")
-from Scraper import collecting_data, collecting_title, collecting_price, collecting_type, collecting_pages, using_pages
+from Scraper import collecting_data, collecting_title, collecting_price, collecting_type, collecting_pages, using_pages, printing_data
 
 class Test_Collecting_Pages(unittest.TestCase):
 
@@ -24,8 +24,8 @@ class Test_Collecting_Pages(unittest.TestCase):
 
 class Test_Using_Pages(unittest.TestCase):
 
-    # Data from using_pages can't be NONE
-    def test_using_pages_data_is_not_NONE(self):
+    # Data from using_pages can't be None
+    def test_using_pages_data_is_not_None(self):
         collected_data = using_pages()
         self.assertIsNotNone(collected_data)
 
@@ -118,6 +118,28 @@ class Test_Collecting_Type(unittest.TestCase):
         soup = BeautifulSoup(html_data, "html.parser")
         p_type = collecting_type(soup)
         self.assertIsInstance(p_type,str)
+
+class Test_Printing_Data(unittest.TestCase):
+
+    # Data from printing_data can't be None
+    def test_printing_data_is_not_None(self):
+        self.assertIsNotNone(printing_data())
+
+    # Returned data must contain 3 different Url
+    def test_printing_data_url_check(self):
+        url = collecting_pages()
+        data = printing_data()
+        self.assertIn(url[0], data[0])
+        self.assertIn(url[1], data[2])
+        self.assertIn(url[2], data[4])
+
+    # Returned data must contain same data as using_pages function
+    def test_printing_data_data_check(self):
+        expected_data = using_pages()
+        current_data = printing_data()
+        self.assertIn(expected_data[0], current_data[1])
+        self.assertIn(expected_data[1], current_data[3])
+        self.assertIn(expected_data[2], current_data[5])
 
 if __name__== '__main__':
     unittest.main()
