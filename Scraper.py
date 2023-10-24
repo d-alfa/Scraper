@@ -87,16 +87,22 @@ def saving_data(all_data):
 	connection.commit()
 	connection.close()
 
-# Prints out collected Url and Data	
+# Prints out collected Url and Data 
 def printing_data():
+	url_and_data = []
 	pages = collecting_pages()
 	data = using_pages()
-	for url, d in zip(pages,data):
+
+	for url in pages:
+		url_and_data.append([url])
+
+	for i, item in enumerate(data):
+		url_and_data.insert(i * 2 + 1, [item])
+
+	for item in url_and_data:
+		print(item)
 		print()
-		print(f"Url: {url}")
-		print()
-		for item in d:
-			print(item)
-	return zip(pages,data)
+
+	return url_and_data
 
 printing_data()
