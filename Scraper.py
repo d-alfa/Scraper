@@ -36,8 +36,6 @@ def collecting_data(url):
 		# sleep(randint(7,67))
 	return all_data
 	# saving_data(all_data)
-	# for a in all_data:
-	# 	print(a)
 
 # Title
 def collecting_title(data):
@@ -89,6 +87,16 @@ def saving_data(all_data):
 	connection.commit()
 	connection.close()
 
-# collecting_data("https://www.skonis-kvapas.lt/arbata/juodoji-arbata")
+# Prints out collected Url and Data	
+def printing_data():
+	pages = collecting_pages()
+	data = using_pages()
+	for url, d in zip(pages,data):
+		print()
+		print(f"Url: {url}")
+		print()
+		for item in d:
+			print(item)
+	return print(f"Printing finished")
 
-using_pages()
+printing_data()
