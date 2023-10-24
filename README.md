@@ -12,6 +12,6 @@ Scrapes only indicated data from websites, so depending on the website and data 
 * Random
 
 ## Using the Scraper
-Install all dependencies, inside Scraper.py file call "collecting_pages" function and watch information flowing into the database. \
+Install all dependencies, inside Scraper.py file call "printing_data" function and watch information flowing into the database. \
 P.s in order to run it you need to configure Scraper.py file and connect it to your database,
 if you don't want to save data, just comment out function "Saving_data".
