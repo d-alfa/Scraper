@@ -1,9 +1,10 @@
 
 import unittest
+import mysql.connector
 from bs4 import BeautifulSoup
 import sys
 sys.path.insert(1, "C:/Users/Alfonsas/OneDrive/Desktop/Python/Projektai/Scraper")
-from Scraper import collecting_data, collecting_title, collecting_price, collecting_type, collecting_pages, using_pages, printing_data
+from Scraper import collecting_data, collecting_title, collecting_price, collecting_type, collecting_pages, using_pages, printing_data, saving_data
 
 class Test_Collecting_Pages(unittest.TestCase):
 
@@ -140,6 +141,36 @@ class Test_Printing_Data(unittest.TestCase):
         self.assertIn(expected_data[0], current_data[1])
         self.assertIn(expected_data[1], current_data[3])
         self.assertIn(expected_data[2], current_data[5])
+
+class Test_Saving_Data(unittest.TestCase):
+
+    # SetUp for database 
+    def setUp(self):
+        self.connection = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="$improver44",
+            # insert test database
+            database="arbatos"
+    )
+        self.cursor = self.connection.cursor()
+        # self.cur.execute('''CREATE TABLE Arbatos
+        #     (Title VARCHAR(255), Price FLOAT(4,2) NOT NULL, Type VARCHAR(255))''')
+        self.connection.commit()
+    def tearDown(self):
+        self.connection.close()
+
+    # Checks if saved data is inside database
+    def test_saving_data(self):
+        sample_data = [
+            ('Juodoji arbata SKONIS IR KVAPAS DARJEELING FTGFOP1', 4.48, 'Juodoji Arbata'),
+            ('Juodoji arbata SKONIS IR KVAPAS EARL GREY', 1.79, 'Juodoji Arbata'),
+            ('Juodoji arbata Darjeeling ORANGE VALLEY SFTGFOP1 FF 2023', 6.87, 'Juodoji Arbata'),
+        ]
+        saving_data(sample_data)
+        self.cursor.execute("SELECT * FROM Arbatos")
+        data_from_database = self.cursor.fetchmany(3)
+        self.assertEqual(data_from_database, sample_data)
 
 if __name__== '__main__':
     unittest.main()
