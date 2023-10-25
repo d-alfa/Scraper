@@ -150,27 +150,32 @@ class Test_Saving_Data(unittest.TestCase):
             host="localhost",
             user="root",
             password="$improver44",
-            # insert test database
             database="arbatos"
     )
         self.cursor = self.connection.cursor()
-        # self.cur.execute('''CREATE TABLE Arbatos
+        # self.cursor.execute('''CREATE TABLE Arbatos
         #     (Title VARCHAR(255), Price FLOAT(4,2) NOT NULL, Type VARCHAR(255))''')
         self.connection.commit()
-    def tearDown(self):
-        self.connection.close()
 
     # Checks if saved data is inside database
     def test_saving_data(self):
         sample_data = [
-            ('Juodoji arbata SKONIS IR KVAPAS DARJEELING FTGFOP1', 4.48, 'Juodoji Arbata'),
-            ('Juodoji arbata SKONIS IR KVAPAS EARL GREY', 1.79, 'Juodoji Arbata'),
-            ('Juodoji arbata Darjeeling ORANGE VALLEY SFTGFOP1 FF 2023', 6.87, 'Juodoji Arbata'),
+            ('Test1', 4.48, 'Juodoji Arbata'),
+            ('Test2', 1.79, 'Juodoji Arbata'),
+            ('Test3', 6.87, 'Juodoji Arbata'),
         ]
         saving_data(sample_data)
         self.cursor.execute("SELECT * FROM Arbatos")
         data_from_database = self.cursor.fetchmany(3)
         self.assertEqual(data_from_database, sample_data)
+
+        # Deleting test information after test
+        delete_query = "DELETE FROM arbatos WHERE Title in ('Test1','Test2','Test3')"
+        self.cursor.execute(delete_query)
+        self.connection.commit()
+
+    def tearDown(self):
+        self.connection.close()
 
 if __name__== '__main__':
     unittest.main()
