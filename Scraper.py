@@ -97,11 +97,11 @@ def printing_data():
 		url_and_data.append([url])
 
 	for i, item in enumerate(data):
-		url_and_data.insert(i * 2 + 1, [item])
+		url_and_data.insert(i * 2 + 1, item)
 
 	for item in url_and_data:
-		print(item)
-		print()
+		for i in item:
+			print(i)
 
 	return url_and_data
 
