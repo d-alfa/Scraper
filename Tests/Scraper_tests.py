@@ -138,9 +138,9 @@ class Test_Printing_Data(unittest.TestCase):
     def test_printing_data_data_check(self):
         expected_data = using_pages()
         current_data = printing_data()
-        self.assertIn(expected_data[0], current_data[1])
-        self.assertIn(expected_data[1], current_data[3])
-        self.assertIn(expected_data[2], current_data[5])
+        self.assertListEqual(expected_data[0], current_data[1])
+        self.assertListEqual(expected_data[1], current_data[3])
+        self.assertListEqual(expected_data[2], current_data[5])
 
 class Test_Saving_Data(unittest.TestCase):
 
