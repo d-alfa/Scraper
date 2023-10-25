@@ -165,7 +165,7 @@ class Test_Saving_Data(unittest.TestCase):
             ('Test3', 6.87, 'Juodoji Arbata'),
         ]
         saving_data(sample_data)
-        self.cursor.execute("SELECT * FROM Arbatos")
+        self.cursor.execute("SELECT * FROM Arbatos WHERE Title in ('Test1','Test2','Test3')")
         data_from_database = self.cursor.fetchmany(3)
         self.assertEqual(data_from_database, sample_data)
 
