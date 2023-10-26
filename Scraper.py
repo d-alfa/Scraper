@@ -14,8 +14,7 @@ def collecting_pages():
 		collected_url.append(url)
 	return collected_url
 
-# Uses pages from "collecting_pages" function 
-# 	and passes them to "collecting_data" function
+# Uses pages from "collecting_pages" function and passes them to "collecting_data" function
 def using_pages():
 	collected_data = []
 	collected_url = collecting_pages()
@@ -35,7 +34,6 @@ def collecting_data(url):
 		all_data.append(item_data)
 		# sleep(randint(7,67))
 	return all_data
-	# saving_data(all_data)
 
 # Title
 def collecting_title(data):
@@ -70,7 +68,7 @@ def collecting_type(data):
 		return "Juodoji Arbata"
 
 # Saving data to SQL database
-def saving_data(all_data):
+def saving_data(item):
 	connection = mysql.connector.connect(
         host="localhost",
         user="root",
@@ -82,10 +80,16 @@ def saving_data(all_data):
 	# c.execute('''CREATE TABLE Arbatos 
 	# 	(Title VARCHAR(255),Price FLOAT(4,2) NOT NULL,Type VARCHAR(255))''')
 
-	# Inserts data to database
-	c.executemany("INSERT INTO Arbatos VALUES (%s,%s,%s)", all_data)
+	# Inserts data into database
+	c.executemany("INSERT INTO Arbatos VALUES (%s,%s,%s)", item)
 	connection.commit()
 	connection.close()
+
+# Takes data from "using_pages" and passes it into "saving_data" function
+def passing_data_into_saving_data():
+	data = using_pages()
+	for item in data:
+		saving_data(item)
 
 # Prints out collected Url and Data 
 def printing_data():
@@ -105,4 +109,5 @@ def printing_data():
 
 	return url_and_data
 
+passing_data_into_saving_data()
 printing_data()
