@@ -4,7 +4,7 @@ import mysql.connector
 from bs4 import BeautifulSoup
 import sys
 sys.path.insert(1, "C:/Users/Alfonsas/OneDrive/Desktop/Python/Projektai/Scraper")
-from Scraper import collecting_data, collecting_title, collecting_price, collecting_type, collecting_pages, using_pages, printing_data, saving_data
+from Scraper import collecting_data, collecting_title, collecting_price, collecting_type, collecting_pages, using_pages, saving_data
 
 class Test_Collecting_Pages(unittest.TestCase):
 
@@ -122,14 +122,28 @@ class Test_Collecting_Type(unittest.TestCase):
 
 class Test_Printing_Data(unittest.TestCase):
 
+    # SetUp for printing_data function
+    def setUp(self):
+        self.url_and_data = []
+        self.pages = collecting_pages()
+        self.data = using_pages()
+
+        for url in self.pages:
+            self.url_and_data.append([url])
+
+        for i, item in enumerate(self.data):
+            self.url_and_data.insert(i * 2 + 1, item)
+
+        return self.url_and_data
+    
     # Data from printing_data can't be None
     def test_printing_data_is_not_None(self):
-        self.assertIsNotNone(printing_data())
+        self.assertIsNotNone(self.url_and_data)
 
     # Returned data must contain 3 different Url
     def test_printing_data_url_check(self):
         url = collecting_pages()
-        data = printing_data()
+        data = self.url_and_data
         self.assertIn(url[0], data[0])
         self.assertIn(url[1], data[2])
         self.assertIn(url[2], data[4])
@@ -137,7 +151,7 @@ class Test_Printing_Data(unittest.TestCase):
     # Returned data must contain same data as using_pages function
     def test_printing_data_data_check(self):
         expected_data = using_pages()
-        current_data = printing_data()
+        current_data = self.url_and_data
         self.assertListEqual(expected_data[0], current_data[1])
         self.assertListEqual(expected_data[1], current_data[3])
         self.assertListEqual(expected_data[2], current_data[5])
