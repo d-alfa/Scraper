@@ -158,7 +158,7 @@ class Test_Printing_Data(unittest.TestCase):
 
 class Test_Saving_Data(unittest.TestCase):
 
-    # SetUp for database 
+    # SetUp for saving_data function 
     def setUp(self):
         self.connection = mysql.connector.connect(
             host="localhost",
@@ -171,7 +171,12 @@ class Test_Saving_Data(unittest.TestCase):
         #     (Title VARCHAR(255), Price FLOAT(4,2) NOT NULL, Type VARCHAR(255))''')
         self.connection.commit()
 
-    # Checks if saved data is inside database
+    # TearDown for saving_data function
+    def tearDown(self):
+        self.cursor.close()
+        self.connection.close()
+
+    # Test for data check
     def test_saving_data(self):
         sample_data = [
             ('Test1', 4.48, 'Juodoji Arbata'),
@@ -179,17 +184,16 @@ class Test_Saving_Data(unittest.TestCase):
             ('Test3', 6.87, 'Juodoji Arbata'),
         ]
         saving_data(sample_data)
-        self.cursor.execute("SELECT * FROM Arbatos WHERE Title in ('Test1','Test2','Test3')")
-        data_from_database = self.cursor.fetchmany(3)
-        self.assertEqual(data_from_database, sample_data)
-
-        # Deleting test information after test
-        delete_query = "DELETE FROM arbatos WHERE Title in ('Test1','Test2','Test3')"
-        self.cursor.execute(delete_query)
-        self.connection.commit()
-
-    def tearDown(self):
-        self.connection.close()
+        try:
+            # Checks if saved data is inside database
+            self.cursor.execute("SELECT * FROM Arbatos WHERE Title in ('Test1','Test2','Test3')")
+            data_from_database = self.cursor.fetchmany(3)
+            self.assertEqual(data_from_database, sample_data)
+        finally:
+            # Deleting test information after test
+            delete_query = "DELETE FROM Arbatos WHERE Title in ('Test1','Test2','Test3')"
+            self.cursor.execute(delete_query)
+            self.connection.commit()
 
 if __name__== '__main__':
     unittest.main()
