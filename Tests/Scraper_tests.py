@@ -146,7 +146,25 @@ class Test_Saving_Data(unittest.TestCase):
         mock_connection.commit.assert_called()
         mock_connection.close.assert_called()
 
-# class Test_Passing_Data_Into_Saving_data(unittest.TestCase):
+class Test_Passing_Data_Into_Saving_data(unittest.TestCase):
+
+    # Tests "passing_data_into_saving_data" functionality using "unittest.mock"
+    @patch('Scraper.using_pages')
+    @patch('Scraper.saving_data')
+    def test_passing_data_into_saving_data(self, mock_saving_data, mock_using_pages):
+        data = [
+            ('Item1', 10.0, 'Type1'),
+            ('Item2', 15.0, 'Type2'),
+            ('Item3', 8.0, 'Type3')
+        ]
+        mock_using_pages.return_value = data
+        passing_data_into_saving_data()
+
+        # Records the expected calls with each "item" from "data"  
+        calls = [unittest.mock.call(item) for item in data]
+
+        # Checks if "mock_saving_data" has been called with the list of "calls"
+        mock_saving_data.assert_has_calls(calls)
 
 # class Test_Printing_Data(unittest.TestCase):
 
