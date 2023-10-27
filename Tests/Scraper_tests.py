@@ -1,5 +1,6 @@
 
 import unittest
+from unittest.mock import Mock, patch
 import mysql.connector
 from bs4 import BeautifulSoup
 import sys
@@ -120,44 +121,30 @@ class Test_Collecting_Type(unittest.TestCase):
         p_type = collecting_type(soup)
         self.assertIsInstance(p_type,str)
 
-# class Test_Saving_Data(unittest.TestCase):
+class Test_Saving_Data(unittest.TestCase):
 
-#     # SetUp for saving_data function
-#     def setUp(self):
-#         self.connection = mysql.connector.connect(
-#             host="localhost",
-#             user="root",
-#             password="$improver44",
-#             database="arbatos"
-#     )
-#         self.cursor = self.connection.cursor()
-#         # self.cursor.execute('''CREATE TABLE Arbatos
-#         #     (Title VARCHAR(255), Price FLOAT(4,2) NOT NULL, Type VARCHAR(255))''')
-#         self.connection.commit()
+    # Tests saving_data functionality using "unittest.mock"
+    @patch('Scraper.mysql.connector.connect')
+    def test_saving_data(self, mock_connect):
+        mock_cursor = mock_connect.return_value.cursor.return_value
+        mock_connection = mock_connect.return_value
+        item = [("Green Tea", 5.99, "Green")]
+        saving_data(item)
 
-#     # TearDown for saving_data function
-#     def tearDown(self):
-#         self.cursor.close()
-#         self.connection.close()
+        # Checks if "mock object" was called with specific arguments
+        mock_connect.assert_called_with(
+            host="localhost",
+            user="root",
+            password="$improver44",
+            database="arbatos"
+        )
+    
+        # Checks if "executemany" method of the "mock_cursor" was called with specific arguments
+        mock_cursor.executemany.assert_called_with("INSERT INTO arbatos VALUES (%s,%s,%s)", item)
 
-#     # Test for data check
-#     def test_saving_data(self):
-#         sample_data = [
-#             ('Test1', 4.48, 'Juodoji Arbata'),
-#             ('Test2', 1.79, 'Juodoji Arbata'),
-#             ('Test3', 6.87, 'Juodoji Arbata'),
-#         ]
-#         saving_data(sample_data)
-#         try:
-#             # Checks if saved data is inside database
-#             self.cursor.execute("SELECT * FROM Arbatos WHERE Title in ('Test1','Test2','Test3')")
-#             data_from_database = self.cursor.fetchmany(3)
-#             self.assertEqual(data_from_database, sample_data)
-#         finally:
-#             # Deleting test information after test
-#             delete_query = "DELETE FROM Arbatos WHERE Title in ('Test1','Test2','Test3')"
-#             self.cursor.execute(delete_query)
-#             self.connection.commit()
+        # Checks if "commit" and "close" methods of the "mock_connection" were called
+        mock_connection.commit.assert_called()
+        mock_connection.close.assert_called()
 
 # class Test_Passing_Data_Into_Saving_data(unittest.TestCase):
 
