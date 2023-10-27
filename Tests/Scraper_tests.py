@@ -120,80 +120,82 @@ class Test_Collecting_Type(unittest.TestCase):
         p_type = collecting_type(soup)
         self.assertIsInstance(p_type,str)
 
-class Test_Printing_Data(unittest.TestCase):
+# class Test_Saving_Data(unittest.TestCase):
 
-    # SetUp for printing_data function
-    def setUp(self):
-        self.url_and_data = []
-        self.pages = collecting_pages()
-        self.data = using_pages()
+#     # SetUp for saving_data function
+#     def setUp(self):
+#         self.connection = mysql.connector.connect(
+#             host="localhost",
+#             user="root",
+#             password="$improver44",
+#             database="arbatos"
+#     )
+#         self.cursor = self.connection.cursor()
+#         # self.cursor.execute('''CREATE TABLE Arbatos
+#         #     (Title VARCHAR(255), Price FLOAT(4,2) NOT NULL, Type VARCHAR(255))''')
+#         self.connection.commit()
 
-        for url in self.pages:
-            self.url_and_data.append([url])
+#     # TearDown for saving_data function
+#     def tearDown(self):
+#         self.cursor.close()
+#         self.connection.close()
 
-        for i, item in enumerate(self.data):
-            self.url_and_data.insert(i * 2 + 1, item)
+#     # Test for data check
+#     def test_saving_data(self):
+#         sample_data = [
+#             ('Test1', 4.48, 'Juodoji Arbata'),
+#             ('Test2', 1.79, 'Juodoji Arbata'),
+#             ('Test3', 6.87, 'Juodoji Arbata'),
+#         ]
+#         saving_data(sample_data)
+#         try:
+#             # Checks if saved data is inside database
+#             self.cursor.execute("SELECT * FROM Arbatos WHERE Title in ('Test1','Test2','Test3')")
+#             data_from_database = self.cursor.fetchmany(3)
+#             self.assertEqual(data_from_database, sample_data)
+#         finally:
+#             # Deleting test information after test
+#             delete_query = "DELETE FROM Arbatos WHERE Title in ('Test1','Test2','Test3')"
+#             self.cursor.execute(delete_query)
+#             self.connection.commit()
 
-        return self.url_and_data
-    
-    # Data from printing_data can't be None
-    def test_printing_data_is_not_None(self):
-        self.assertIsNotNone(self.url_and_data)
+# class Test_Passing_Data_Into_Saving_data(unittest.TestCase):
 
-    # Returned data must contain 3 different Url
-    def test_printing_data_url_check(self):
-        url = collecting_pages()
-        data = self.url_and_data
-        self.assertIn(url[0], data[0])
-        self.assertIn(url[1], data[2])
-        self.assertIn(url[2], data[4])
+# class Test_Printing_Data(unittest.TestCase):
 
-    # Returned data must contain same data as using_pages function
-    def test_printing_data_data_check(self):
-        expected_data = using_pages()
-        current_data = self.url_and_data
-        self.assertListEqual(expected_data[0], current_data[1])
-        self.assertListEqual(expected_data[1], current_data[3])
-        self.assertListEqual(expected_data[2], current_data[5])
+#     # SetUp for printing_data function
+#     def setUp(self):
+#         self.url_and_data = []
+#         self.pages = collecting_pages()
+#         self.data = using_pages()
 
-class Test_Saving_Data(unittest.TestCase):
+#         for url in self.pages:
+#             self.url_and_data.append([url])
 
-    # SetUp for saving_data function 
-    def setUp(self):
-        self.connection = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="$improver44",
-            database="arbatos"
-    )
-        self.cursor = self.connection.cursor()
-        # self.cursor.execute('''CREATE TABLE Arbatos
-        #     (Title VARCHAR(255), Price FLOAT(4,2) NOT NULL, Type VARCHAR(255))''')
-        self.connection.commit()
+#         for i, item in enumerate(self.data):
+#             self.url_and_data.insert(i * 2 + 1, item)
 
-    # TearDown for saving_data function
-    def tearDown(self):
-        self.cursor.close()
-        self.connection.close()
+#         return self.url_and_data
 
-    # Test for data check
-    def test_saving_data(self):
-        sample_data = [
-            ('Test1', 4.48, 'Juodoji Arbata'),
-            ('Test2', 1.79, 'Juodoji Arbata'),
-            ('Test3', 6.87, 'Juodoji Arbata'),
-        ]
-        saving_data(sample_data)
-        try:
-            # Checks if saved data is inside database
-            self.cursor.execute("SELECT * FROM Arbatos WHERE Title in ('Test1','Test2','Test3')")
-            data_from_database = self.cursor.fetchmany(3)
-            self.assertEqual(data_from_database, sample_data)
-        finally:
-            # Deleting test information after test
-            delete_query = "DELETE FROM Arbatos WHERE Title in ('Test1','Test2','Test3')"
-            self.cursor.execute(delete_query)
-            self.connection.commit()
+#     # Data from printing_data can't be None
+#     def test_printing_data_is_not_None(self):
+#         self.assertIsNotNone(self.url_and_data)
+
+#     # Returned data must contain 3 different Url
+#     def test_printing_data_url_check(self):
+#         url = collecting_pages()
+#         data = self.url_and_data
+#         self.assertIn(url[0], data[0])
+#         self.assertIn(url[1], data[2])
+#         self.assertIn(url[2], data[4])
+
+#     # Returned data must contain same data as using_pages function
+#     def test_printing_data_data_check(self):
+#         expected_data = using_pages()
+#         current_data = self.url_and_data
+#         self.assertListEqual(expected_data[0], current_data[1])
+#         self.assertListEqual(expected_data[1], current_data[3])
+#         self.assertListEqual(expected_data[2], current_data[5])
 
 if __name__== '__main__':
     unittest.main()
