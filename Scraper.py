@@ -75,13 +75,13 @@ def saving_data(item):
         password="$improver44",
         database="arbatos"
     )
-	c = connection.cursor()
+	cursor = connection.cursor()
 	# Creates table "arbatos" inside SQL database
 	# c.execute('''CREATE TABLE arbatos
 	# 	(Title VARCHAR(255),Price FLOAT(4,2) NOT NULL,Type VARCHAR(255))''')
 
 	# Inserts data into database
-	c.executemany("INSERT INTO arbatos VALUES (%s,%s,%s)", item)
+	cursor.executemany("INSERT INTO arbatos VALUES (%s,%s,%s)", item)
 	connection.commit()
 	connection.close()
 
