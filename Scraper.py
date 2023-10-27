@@ -76,12 +76,12 @@ def saving_data(item):
         database="arbatos"
     )
 	c = connection.cursor()
-	# Creates table "Arbatos" inside SQL database
-	# c.execute('''CREATE TABLE Arbatos 
+	# Creates table "arbatos" inside SQL database
+	# c.execute('''CREATE TABLE arbatos
 	# 	(Title VARCHAR(255),Price FLOAT(4,2) NOT NULL,Type VARCHAR(255))''')
 
 	# Inserts data into database
-	c.executemany("INSERT INTO Arbatos VALUES (%s,%s,%s)", item)
+	c.executemany("INSERT INTO arbatos VALUES (%s,%s,%s)", item)
 	connection.commit()
 	connection.close()
 
@@ -109,5 +109,5 @@ def printing_data():
 
 	return url_and_data
 
-passing_data_into_saving_data()
-printing_data()
+# passing_data_into_saving_data()
+# printing_data()
