@@ -4,7 +4,7 @@ import mysql.connector
 from bs4 import BeautifulSoup
 import sys
 sys.path.insert(1, "C:/Users/Alfonsas/OneDrive/Desktop/Python/Projektai/Scraper")
-from Scraper import collecting_data, collecting_title, collecting_price, collecting_type, collecting_pages, using_pages, saving_data
+from Scraper import collecting_pages, using_pages, collecting_data, collecting_title, collecting_price, collecting_type, saving_data, passing_data_into_saving_data, printing_data
 
 class Test_Collecting_Pages(unittest.TestCase):
 
