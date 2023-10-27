@@ -14,4 +14,4 @@ Scrapes only indicated data from websites, so depending on the website and data 
 ## Using the Scraper
 Install all dependencies !!!\
 In order to run Scraper call "printing_data" function inside Scraper.py file and watch collected data printing inside terminal. \
-If you don't want to save data, just don't call function "saving_data".
+If you don't want to save data, just don't call function "passing_data_into_saving_data".
