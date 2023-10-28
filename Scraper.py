@@ -91,8 +91,8 @@ def passing_data_into_saving_data():
 	for item in data:
 		saving_data(item)
 
-# Prints out collected Url and Data 
-def printing_data():
+# Collects url and data
+def collecting_url_and_data():
 	url_and_data = []
 	pages = collecting_pages()
 	data = using_pages()
@@ -103,11 +103,14 @@ def printing_data():
 	for i, item in enumerate(data):
 		url_and_data.insert(i * 2 + 1, item)
 
+	return url_and_data
+
+# Prints url and data
+def printing_data():
+	url_and_data = collecting_url_and_data()
 	for item in url_and_data:
 		for i in item:
 			print(i)
-
-	return url_and_data
 
 # passing_data_into_saving_data()
 # printing_data()
