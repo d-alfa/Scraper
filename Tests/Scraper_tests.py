@@ -203,8 +203,8 @@ class Test_Printing_Data(unittest.TestCase):
 
         # List of expected_calls
         expected_calls = [unittest.mock.call(item) for item in mock_collecting_url_and_data]
-        
-        # Checks if mock_print kas been called with arguments from expected_calls
+
+        # Checks if "mock_print" kas been called with arguments from list of "expected_calls"
         mock_print.assert_has_calls(expected_calls, any_order=True)
 
 if __name__== '__main__':
