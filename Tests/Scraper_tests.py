@@ -5,7 +5,7 @@ import mysql.connector
 from bs4 import BeautifulSoup
 import sys
 sys.path.insert(1, "C:/Users/Alfonsas/OneDrive/Desktop/Python/Projektai/Scraper")
-from Scraper import collecting_pages, using_pages, collecting_data, collecting_title, collecting_price, collecting_type, saving_data, passing_data_into_saving_data, printing_data
+from Scraper import collecting_pages, using_pages, collecting_data, collecting_title, collecting_price, collecting_type, saving_data, passing_data_into_saving_data, collecting_url_and_data, printing_data
 
 class Test_Collecting_Pages(unittest.TestCase):
 
@@ -166,41 +166,27 @@ class Test_Passing_Data_Into_Saving_data(unittest.TestCase):
         # Checks if "mock_saving_data" has been called with the list of "calls"
         mock_saving_data.assert_has_calls(calls)
 
-# class Test_Printing_Data(unittest.TestCase):
+class Test_Collecting_Url_And_Data(unittest.TestCase):
 
-#     # SetUp for printing_data function
-#     def setUp(self):
-#         self.url_and_data = []
-#         self.pages = collecting_pages()
-#         self.data = using_pages()
+    # Data from collecting_url_and_data can't be None
+    def test_collecting_url_and_data_is_not_None(self):
+        self.assertIsNotNone(collecting_url_and_data)
 
-#         for url in self.pages:
-#             self.url_and_data.append([url])
+    # Returned data must contain 3 different Url
+    def test_collecting_url_and_data_url_check(self):
+        url = collecting_pages()
+        data = collecting_url_and_data()
+        self.assertIn(url[0], data[0])
+        self.assertIn(url[1], data[2])
+        self.assertIn(url[2], data[4])
 
-#         for i, item in enumerate(self.data):
-#             self.url_and_data.insert(i * 2 + 1, item)
-
-#         return self.url_and_data
-
-#     # Data from printing_data can't be None
-#     def test_printing_data_is_not_None(self):
-#         self.assertIsNotNone(self.url_and_data)
-
-#     # Returned data must contain 3 different Url
-#     def test_printing_data_url_check(self):
-#         url = collecting_pages()
-#         data = self.url_and_data
-#         self.assertIn(url[0], data[0])
-#         self.assertIn(url[1], data[2])
-#         self.assertIn(url[2], data[4])
-
-#     # Returned data must contain same data as using_pages function
-#     def test_printing_data_data_check(self):
-#         expected_data = using_pages()
-#         current_data = self.url_and_data
-#         self.assertListEqual(expected_data[0], current_data[1])
-#         self.assertListEqual(expected_data[1], current_data[3])
-#         self.assertListEqual(expected_data[2], current_data[5])
+    # Returned data must contain same data as using_pages function
+    def test_collecting_url_and_data_data_check(self):
+        expected_data = using_pages()
+        current_data = collecting_url_and_data()
+        self.assertListEqual(expected_data[0], current_data[1])
+        self.assertListEqual(expected_data[1], current_data[3])
+        self.assertListEqual(expected_data[2], current_data[5])
 
 if __name__== '__main__':
     unittest.main()
