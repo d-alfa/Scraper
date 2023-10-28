@@ -188,5 +188,24 @@ class Test_Collecting_Url_And_Data(unittest.TestCase):
         self.assertListEqual(expected_data[1], current_data[3])
         self.assertListEqual(expected_data[2], current_data[5])
 
+class Test_Printing_Data(unittest.TestCase):
+
+    # Tests "printing_data" functionality using "unittest.mock"
+    @patch('Scraper.collecting_url_and_data')
+    @patch('builtins.print')
+    def test_printing_data(self, mock_print, mock_collecting_url_and_data):
+        url_and_data = [
+            ['https://example.com/1'], [('Item1', 10.0, 'Type1'),('Item2', 15.0, 'Type2')],
+            ['https://example.com/2'], [('Item3', 9.0, 'Type3'),('Item4', 14.0, 'Type4')],
+        ]
+        mock_collecting_url_and_data.return_value = url_and_data
+        printing_data()
+
+        # List of expected_calls
+        expected_calls = [unittest.mock.call(item) for item in mock_collecting_url_and_data]
+        
+        # Checks if mock_print kas been called with arguments from expected_calls
+        mock_print.assert_has_calls(expected_calls, any_order=True)
+
 if __name__== '__main__':
     unittest.main()
