@@ -160,11 +160,11 @@ class Test_Passing_Data_Into_Saving_data(unittest.TestCase):
         mock_using_pages.return_value = data
         passing_data_into_saving_data()
 
-        # Records the expected calls with each "item" from "data"  
-        calls = [unittest.mock.call(item) for item in data]
+        # List of expected calls  
+        expected_calls = [unittest.mock.call(item) for item in data]
 
-        # Checks if "mock_saving_data" has been called with the list of "calls"
-        mock_saving_data.assert_has_calls(calls)
+        # Checks if "mock_saving_data" has been called with arguments from list of "expected_calls"
+        mock_saving_data.assert_has_calls(expected_calls)
 
 class Test_Collecting_Url_And_Data(unittest.TestCase):
 
