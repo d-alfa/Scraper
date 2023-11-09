@@ -10,10 +10,20 @@ async def collect_html(url):
     soup = BeautifulSoup(response_text, "html.parser")
     return soup
 
+async def collect_title(soup):
+    titles = []
+    html_data = soup.find_all(class_="products__item")
+    for h in html_data:
+        title = h.find("h2")
+        h2 = title.string.strip()
+        titles.append([h2])
+    return titles
+
 async def main():
     url = "https://www.skonis-kvapas.lt/arbata/juodoji-arbata"
-    parsed_data = await collect_html(url)
-    print(parsed_data)
+    soup = await collect_html(url)
+    title = await collect_title(soup)
+    print(title)
 
 if __name__ == "__main__":
     asyncio.run(main())
