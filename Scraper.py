@@ -28,12 +28,19 @@ async def collect_price(soup):
         prices.append([ins])
     return prices
 
+async def collect_type(soup):
+    html_data = soup.find_all(class_="w-full lg:w-7/12")
+    for data in html_data:
+        h1 = data.find("h1").string.strip()
+    return h1
+
 async def main():
     url = "https://www.skonis-kvapas.lt/arbata/juodoji-arbata"
     soup = await collect_html(url)
     title = await collect_title(soup)
     price = await collect_price(soup)
-    print(price)
+    type = await collect_type(soup)
+    print(type)
 
 if __name__ == "__main__":
     asyncio.run(main())
