@@ -13,17 +13,27 @@ async def collect_html(url):
 async def collect_title(soup):
     titles = []
     html_data = soup.find_all(class_="products__item")
-    for h in html_data:
-        title = h.find("h2")
+    for data in html_data:
+        title = data.find("h2")
         h2 = title.string.strip()
         titles.append([h2])
     return titles
+
+async def collect_price(soup):
+    prices = []
+    html_data = soup.find_all(class_="products__item")
+    for data in html_data:
+        price = data.find("ins")
+        ins = price.string.replace("\xa0€","").replace(",",".").replace("€","")
+        prices.append([ins])
+    return prices
 
 async def main():
     url = "https://www.skonis-kvapas.lt/arbata/juodoji-arbata"
     soup = await collect_html(url)
     title = await collect_title(soup)
-    print(title)
+    price = await collect_price(soup)
+    print(price)
 
 if __name__ == "__main__":
     asyncio.run(main())
