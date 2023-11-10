@@ -1,6 +1,6 @@
 import scrapy
 
-class BlackteaspiderSpider(scrapy.Spider):
+class Black_tea_spider_Spider(scrapy.Spider):
     name = "blackteaspider"
     allowed_domains = ["www.skonis-kvapas.lt"]
     start_urls = ["https://www.skonis-kvapas.lt/arbata/juodoji-arbata"]
@@ -14,3 +14,8 @@ class BlackteaspiderSpider(scrapy.Spider):
                 "price" : tea.css("ins::text").get().replace("\xa0€","").replace(",",".").replace("€",""),
                 "url" : tea.css("a.products__item-link").attrib["href"]
             }
+
+        next_page = response.css("a[rel='next']").attrib.get("href")
+
+        if next_page is not None:
+            yield response.follow(next_page, callback = self.parse)
