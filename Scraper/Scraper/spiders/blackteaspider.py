@@ -11,6 +11,6 @@ class BlackteaspiderSpider(scrapy.Spider):
         for tea in blackteas:
             yield{
                 "name" : tea.css("h2::text").get().strip(),
-                "price" : tea.css("ins::text").replace("\xa0€","").replace(",",".").replace("€",""),
+                "price" : tea.css("ins::text").get().replace("\xa0€","").replace(",",".").replace("€",""),
                 "url" : tea.css("a.products__item-link").attrib["href"]
             }
