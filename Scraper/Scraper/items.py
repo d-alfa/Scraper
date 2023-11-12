@@ -5,8 +5,7 @@
 
 import scrapy
 
-
-class ScraperItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+class Black_Tea_Item(scrapy.Item):
+    name = scrapy.Field()
+    price = scrapy.Field()
+    url = scrapy.Field()
