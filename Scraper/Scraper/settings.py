@@ -12,6 +12,9 @@ BOT_NAME = "Scraper"
 SPIDER_MODULES = ["Scraper.spiders"]
 NEWSPIDER_MODULE = "Scraper.spiders"
 
+FEEDS = {
+    "Black_Tea_Data.json": {"format": "json"}
+}
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "Scraper (+http://www.yourdomain.com)"
