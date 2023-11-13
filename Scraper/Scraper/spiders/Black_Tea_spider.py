@@ -3,7 +3,7 @@ from Scraper.items import Black_Tea_Item
 
 class Black_Tea_Spider(scrapy.Spider):
     name = "Black_Tea_Spider"
-    allowed_domains = ["www.skonis-kvapas.lt"]
+    allowed_domains = ["www.skonis-kvapas.lt", "https://proxy.scrapeops.io/v1/"]
     start_urls = ["https://www.skonis-kvapas.lt/arbata/juodoji-arbata"]
 
     def parse(self, response):
@@ -19,4 +19,4 @@ class Black_Tea_Spider(scrapy.Spider):
         next_page = response.css("a[rel='next']").attrib.get("href")
 
         if next_page is not None:
-            yield response.follow(next_page, callback = self.parse)
+            yield scrapy.Request(url=next_page, callback = self.parse)
