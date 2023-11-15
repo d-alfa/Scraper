@@ -30,15 +30,15 @@ SCRAPEOPS_API_KEY = 'YOUR_API_KEY_HERE'
 ```
 ## Usage
 
-1. Navigate to the project directory:
+**1. Navigate to the project directory:**
 ```bash
 cd Scraper/
 ```
-2. Run the scraper:
+**2. Run the scraper:**
 ```bash
 scrapy crawl Black_Tea_Spider
 ```
-3. Output:
+**3. Output:**
 
 The scraped data will be saved to **Black_Tea_Data.json** file:
 
