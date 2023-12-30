@@ -9,3 +9,10 @@ class Black_Tea_Item(scrapy.Item):
     name = scrapy.Field()
     price = scrapy.Field()
     url = scrapy.Field()
+    tea_type = scrapy.Field()
+
+class Green_Tea_Item(scrapy.Item):
+    name = scrapy.Field()
+    price = scrapy.Field()
+    url = scrapy.Field()
+    tea_type = scrapy.Field()

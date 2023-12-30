@@ -12,9 +12,8 @@ BOT_NAME = "Scraper"
 SPIDER_MODULES = ["Scraper.spiders"]
 NEWSPIDER_MODULE = "Scraper.spiders"
 
-FEEDS = {
-    "Black_Tea_Data.json": {"format": "json"}
-}
+# FEEDS = {
+# }
 
 SCRAPEOPS_API_KEY = "7ed52416-da68-448d-a021-eadebeb05436"
 SCRAPEOPS_FAKE_USER_AGENT_ENDPOINT = "https://headers.scrapeops.io/v1/user-agents"
@@ -75,7 +74,7 @@ DOWNLOADER_MIDDLEWARES = {
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   "Scraper.pipelines.Black_Tea_Scraper_Pipeline": 300,
+   "Scraper.pipelines.Scraper_Pipeline": 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

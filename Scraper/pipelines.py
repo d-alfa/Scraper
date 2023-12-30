@@ -7,7 +7,7 @@
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
 
-class Black_Tea_Scraper_Pipeline:
+class Scraper_Pipeline:
     def process_item(self, item, spider):
         adapter = ItemAdapter(item)
 
@@ -33,6 +33,7 @@ class Black_Tea_Scraper_Pipeline:
             "sftgfop1 ff 2023",
             "sftgfop1 ff",
             "sftgfop1",
+            "sftgfop",
             "ftgfop1",
             "ftgfop",
             "ff, 2022",
@@ -40,12 +41,21 @@ class Black_Tea_Scraper_Pipeline:
             ", 70g",
             ", 80 g",
             ", 1 vnt. vokelyje",
-            ", 15 vnt",
-            ", 40 vnt",
+            ", 15 vnt.",
+            ", 40 vnt.",
             ", 60g (stikl.)",
             ", 40g",
             ", 70g",
-            ", 90g"
+            ", 90g",
+            "(stikl.) 60 g",
+            ", 80g",
+            ", 55g",
+            ", 100g",
+            ", 50g",
+            ", 45g",
+            ", 30g",
+            ", 55 g",
+            "(stikl.)"
         ]
         for u in unnecessary_characters:
             value = adapter.get(name)
