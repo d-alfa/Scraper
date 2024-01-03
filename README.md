@@ -2,13 +2,18 @@
 
 ## Overwiew
 
-This web scraper is built using the Scrapy framework. The scraper is designed to extract data from **skonis ir kvapas** website and can be customized for various use cases.
+This web scraper is built using the Scrapy framework. The scraper is designed to extract data from **https://www.skonis-kvapas.lt/** website and can be customized for various use cases.
 
 ## Requirements
 
 - Python 3.x
 - Scrapy framework
 - ScrapeOps library
+
+## Features
+
+- **Black Tea Spider** : Scrapes website for black tea data.
+- **Green Tea Spider** : Scrapes website for green tea data.
 
 ## Installation
 
@@ -22,12 +27,12 @@ pip install -r requirements.txt
 ```
 **3. Add your ScrapeOps API key to the settings.py file:**
 
-You can signup for an ScrapeOps API key at https://scrapeops.io
-
-Then add your API key to the **settings.py** file. 
+You can signup for an ScrapeOps API key at https://scrapeops.io,
+then add your API key to the **settings.py** file. 
 ```bash
 SCRAPEOPS_API_KEY = 'YOUR_API_KEY_HERE'
 ```
+
 ## Usage
 
 **1. Navigate to the project directory:**
@@ -38,8 +43,11 @@ cd Scraper/
 ```bash
 scrapy crawl Black_Tea_Spider
 ```
+```bash
+scrapy crawl Green_Tea_Spider
+```
 **3. Output:**
 
-The scraped data will be saved to **Black_Tea_Data.json** file:
+The scraped data will be saved to **All_Tea_Data.json** file:
 
 ![Scrapy Logo](Output.png)
