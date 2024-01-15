@@ -1,4 +1,4 @@
-# Scraper (feature_1 branch)
+# Scraper (feature_1)
 
 ## Overview
 
